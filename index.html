@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="overworld" data-mode="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC Toolkit</title>
+<meta name="description" content="A curated toolbox for Minecraft players: seed maps, ore finders, PvP clients and a full interactive brewing guide.">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  // Apply any saved theme/mode/language before first paint, so the page
+  // never flashes the default palette and then swaps.
+  (function () {
+    try {
+      var theme = localStorage.getItem('mctoolkit-theme');
+      var mode = localStorage.getItem('mctoolkit-mode');
+      var lang = localStorage.getItem('mctoolkit-lang');
+      if (theme) document.documentElement.setAttribute('data-theme', theme);
+      if (mode) document.documentElement.setAttribute('data-mode', mode);
+      if (lang) document.documentElement.setAttribute('data-lang', lang);
+    } catch (e) { /* storage unavailable, defaults stand */ }
+  })();
+</script>
+</head>
+<body>
+
+<nav>
+  <button class="nav-brand" onclick="showPage('home')">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+      <polygon class="c1" points="16,2 29,9 16,16 3,9" />
+      <polygon class="c2" points="3,9 16,16 16,30 3,23" />
+      <polygon class="c3" points="29,9 16,16 16,30 29,23" />
+    </svg>
+    <span class="brand-word">MC<b>Toolkit</b></span>
+  </button>
+
+  <ul class="nav-links">
+    <li><button onclick="showPage('home')" id="nav-home" class="active" data-i18n="nav.home">Home</button></li>
+    <li><button onclick="showPage('clients')" id="nav-clients" data-i18n="nav.clients">Clients</button></li>
+    <li><button onclick="showPage('brewing')" id="nav-brewing" data-i18n="nav.brewing">Brewing</button></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="control-group">
+      <button class="swatch-btn" id="theme-trigger" aria-haspopup="menu">
+        <span class="swatch-dot"></span><span class="swatch-label" data-i18n="controls.theme">Theme</span>
+      </button>
+      <div class="popover" id="theme-popover" role="menu" aria-label="Theme">
+        <div id="theme-list"></div>
+      </div>
+    </div>
+
+    <button class="icon-btn" id="mode-toggle" data-i18n-aria="controls.mode" aria-label="Toggle light/dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+
+    <div class="control-group">
+      <button class="swatch-btn" id="lang-trigger" aria-haspopup="menu">
+        <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        <span class="lang-label" data-i18n="controls.language">Language</span>
+      </button>
+      <div class="popover" id="lang-popover" role="menu" aria-label="Language">
+        <div id="lang-list"></div>
+      </div>
+    </div>
+
+    <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="hero-eyebrow" data-i18n="hero.eyebrow">A workbench for Minecraft players</div>
+      <h1 class="hero-title">
+        <span data-i18n="hero.title1">Every tool you need,</span>
+        <span data-i18n="hero.title2">in one</span>
+        <span data-i18n="hero.title3" style="color:var(--accent);">toolbox.</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">Seed maps, ore finders, PvP clients and a full brewing guide: the reference kit for getting more done between spawns.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="showPage('clients')" data-i18n="hero.cta1">Browse clients</button>
+        <button class="btn btn-ghost" onclick="showPage('brewing')" data-i18n="hero.cta2">Open brewing guide</button>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 320 320" aria-hidden="true">
+        <g opacity="0.9">
+          <polygon points="160,40 240,84 160,128 80,84" fill="var(--tag-b)"/>
+          <polygon points="80,84 160,128 160,216 80,172" fill="var(--tag-b)" opacity="0.75"/>
+          <polygon points="240,84 160,128 160,216 240,172" fill="var(--tag-b)" opacity="0.55"/>
+        </g>
+        <g>
+          <polygon points="160,140 220,172 160,204 100,172" fill="var(--surface-2)" stroke="var(--border)"/>
+          <polygon points="100,172 160,204 160,280 100,248" fill="var(--surface-2)" stroke="var(--border)"/>
+          <polygon points="220,172 160,204 160,280 220,248" fill="var(--surface-2)" stroke="var(--border)"/>
+        </g>
+        <g>
+          <polygon points="230,190 262,206 230,222 198,206" fill="var(--accent)"/>
+          <polygon points="198,206 230,222 230,254 198,238" fill="var(--accent)" opacity="0.75"/>
+          <polygon points="262,206 230,222 230,254 262,238" fill="var(--accent)" opacity="0.55"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <h2 class="section-title" data-i18n="section.tools.title">Minecraft tools</h2>
+    <p class="section-sub" data-i18n="section.tools.sub">Seeds, ores, structures and reference: the tools worth having a tab open for.</p>
+    <div class="tools-grid">
+
+      <div class="tool-card tag-a">
+        <div class="tool-header"><div class="tool-icon">MAP</div><span class="tool-tag" data-i18n="tool.chunkbase.tag">Seed map</span></div>
+        <div class="tool-name">Chunkbase</div>
+        <div class="tool-desc" data-i18n="tool.chunkbase.desc">The go-to interactive seed map. Visualise your entire world: biomes, villages, strongholds and more before you even load in.</div>
+        <ul class="tool-features"><li data-i18n="tool.chunkbase.f1">Biome &amp; structure finder</li><li data-i18n="tool.chunkbase.f2">Slime chunk calculator</li><li data-i18n="tool.chunkbase.f3">All Java &amp; Bedrock versions</li><li data-i18n="tool.chunkbase.f4">Filter by dimension</li></ul>
+        <div class="tool-actions"><a href="https://www.chunkbase.com/apps/seed-map" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.chunkbase.btn1">Open Chunkbase</a></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header"><div class="tool-icon">ORE</div><span class="tool-tag" data-i18n="tool.orefinder.tag">Ore finder</span></div>
+        <div class="tool-name">OreFinder.gg</div>
+        <div class="tool-desc" data-i18n="tool.orefinder.desc">Pinpoint exactly where ores generate in your seed. Find diamonds, ancient debris and every ore vein with precision.</div>
+        <ul class="tool-features"><li data-i18n="tool.orefinder.f1">Seed-specific ore locations</li><li data-i18n="tool.orefinder.f2">All ore types including ancient debris</li><li data-i18n="tool.orefinder.f3">Y-level heatmaps</li><li data-i18n="tool.orefinder.f4">Plan your strip-mining routes</li></ul>
+        <div class="tool-actions"><a href="https://orefinder.gg" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.orefinder.btn1">Open OreFinder</a></div>
+      </div>
+
+      <div class="tool-card tag-a">
+        <div class="tool-header"><div class="tool-icon">REF</div><span class="tool-tag" data-i18n="tool.wiki.tag">Reference</span></div>
+        <div class="tool-name">Minecraft Wiki</div>
+        <div class="tool-desc" data-i18n="tool.wiki.desc">The official, community-maintained encyclopedia. From mob mechanics to command syntax, the definitive reference.</div>
+        <ul class="tool-features"><li data-i18n="tool.wiki.f1">Every item, block &amp; mob</li><li data-i18n="tool.wiki.f2">Command documentation</li><li data-i18n="tool.wiki.f3">Changelogs &amp; snapshots</li><li data-i18n="tool.wiki.f4">Technical mechanics</li></ul>
+        <div class="tool-actions"><a href="https://minecraft.wiki/" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.wiki.btn1">Open Wiki</a></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header"><div class="tool-icon">TRI</div><span class="tool-tag" data-i18n="tool.ninjabrain.tag">Speedrun</span></div>
+        <div class="tool-name">Ninjabrain Bot</div>
+        <div class="tool-desc" data-i18n="tool.ninjabrain.desc">Real-time stronghold triangulator. Reads your F3 screen live and calculates the stronghold location as you throw eyes of ender.</div>
+        <ul class="tool-features"><li data-i18n="tool.ninjabrain.f1">Live screen-capture triangulation</li><li data-i18n="tool.ninjabrain.f2">Confidence % per throw</li><li data-i18n="tool.ninjabrain.f3">Works from just 2 eye throws</li><li data-i18n="tool.ninjabrain.f4">Desktop app + browser version</li></ul>
+        <div class="tool-actions">
+          <a href="https://github.com/Ninjabrain1/Ninjabrain-Bot/releases/latest" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.ninjabrain.btn1">Download app</a>
+          <a href="https://ninjabrainbot.com" target="_blank" rel="noopener" class="tool-btn" data-i18n="tool.ninjabrain.btn2">Web version</a>
+        </div>
+      </div>
+
+      <div class="tool-card tag-c">
+        <div class="tool-header"><div class="tool-icon">MOD</div><span class="tool-tag" data-i18n="tool.curseforge.tag">Mods &amp; addons</span></div>
+        <div class="tool-name">CurseForge</div>
+        <div class="tool-desc" data-i18n="tool.curseforge.desc">The largest mod hosting platform for Minecraft. Find, download and manage mods, modpacks, resource packs and worlds for both Java and Bedrock.</div>
+        <ul class="tool-features"><li data-i18n="tool.curseforge.f1">Thousands of Java &amp; Bedrock mods</li><li data-i18n="tool.curseforge.f2">Modpack browser &amp; installer</li><li data-i18n="tool.curseforge.f3">Resource &amp; data packs</li><li data-i18n="tool.curseforge.f4">Companion app for easy management</li></ul>
+        <div class="tool-actions"><a href="https://www.curseforge.com/minecraft" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.curseforge.btn1">Open CurseForge</a></div>
+      </div>
+
+      <div class="tool-card tag-a">
+        <div class="tool-header"><div class="tool-icon">TRM</div><span class="tool-tag" data-i18n="tool.minetrim.tag">Armour trims</span></div>
+        <div class="tool-name">Minetrim</div>
+        <div class="tool-desc" data-i18n="tool.minetrim.desc">An armour trim builder and visualiser for Minecraft. Preview exactly how your trim patterns and colour combinations will look before grinding for them in-game.</div>
+        <ul class="tool-features"><li data-i18n="tool.minetrim.f1">All trim patterns &amp; materials</li><li data-i18n="tool.minetrim.f2">Live armour preview</li><li data-i18n="tool.minetrim.f3">Share your trim combinations</li><li data-i18n="tool.minetrim.f4">Java &amp; Bedrock accurate</li></ul>
+        <div class="tool-actions"><a href="https://minetrim.com" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.minetrim.btn1">Open Minetrim</a></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header"><div class="tool-icon">SCH</div><span class="tool-tag" data-i18n="tool.structuretool.tag">Structure reader</span></div>
+        <div class="tool-name">Structure Block List</div>
+        <div class="tool-desc" data-i18n-html="tool.structuretool.desc">Upload a <code>.mcstructure</code> or Schematica file and get a full breakdown of every block inside it, perfect for working out exactly what to collect before you build.</div>
+        <ul class="tool-features"><li data-i18n="tool.structuretool.f1">Supports .mcstructure &amp; Schematica</li><li data-i18n="tool.structuretool.f2">Full block &amp; quantity breakdown</li><li data-i18n="tool.structuretool.f3">Handy shopping list for builds</li><li data-i18n="tool.structuretool.f4">Java &amp; Bedrock formats</li></ul>
+        <div class="tool-actions"><a href="https://structure.mygen.co.uk" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="tool.structuretool.btn1">Open Structure Tool</a></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>MC Toolkit <span data-i18n="footer.disclaimer">Not affiliated with Mojang or Microsoft.</span></p>
+    <p data-i18n="footer.tools">All linked tools are third-party services.</p>
+  </footer>
+</div>
+
+<!-- ═══════════════ CLIENTS PAGE ═══════════════ -->
+<div class="page" id="page-clients">
+  <div class="section-wrap">
+    <h2 class="section-title" data-i18n="section.clients.title">Minecraft clients</h2>
+    <p class="section-sub" data-i18n="section.clients.sub">Performance clients, PvP optimisers and community launchers for Java and Bedrock.</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-header"><div class="tool-icon">FTH</div><span class="tool-tag" data-i18n="client.feather.tag">Java client</span></div>
+        <div class="tool-name">Feather Client</div>
+        <div class="tool-desc" data-i18n="client.feather.desc">A sleek, all-in-one Java Edition client with built-in mod support, FPS boosting and a polished HUD customiser. No more juggling Forge and Fabric separately.</div>
+        <ul class="tool-features"><li data-i18n="client.feather.f1">Built-in mod marketplace</li><li data-i18n="client.feather.f2">FPS optimisation &amp; render tweaks</li><li data-i18n="client.feather.f3">Custom HUD &amp; cosmetics</li><li data-i18n="client.feather.f4">Supports Forge &amp; Fabric mods</li><li data-i18n="client.feather.f5">Java Edition only</li></ul>
+        <div class="tool-actions">
+          <a href="https://feathermc.com" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="client.feather.btn1">Download Feather</a>
+          <a href="https://feathermc.com" target="_blank" rel="noopener" class="tool-btn" data-i18n="client.feather.btn2">Website</a>
+        </div>
+      </div>
+
+      <div class="tool-card tag-a">
+        <div class="tool-header"><div class="tool-icon">LNR</div><span class="tool-tag" data-i18n="client.lunar.tag">Java client</span></div>
+        <div class="tool-name">Lunar Client</div>
+        <div class="tool-desc" data-i18n="client.lunar.desc">One of the most popular Java clients in the community. Lightweight, fast, and packed with mods and cosmetics out of the box. Widely used on servers like Hypixel.</div>
+        <ul class="tool-features"><li data-i18n="client.lunar.f1">Significant FPS improvements</li><li data-i18n="client.lunar.f2">Built-in mods (Optifine, Keystrokes, etc.)</li><li data-i18n="client.lunar.f3">Cosmetics &amp; capes</li><li data-i18n="client.lunar.f4">Server-side mod restrictions respected</li><li data-i18n="client.lunar.f5">Java Edition only</li></ul>
+        <div class="tool-actions"><a href="https://www.lunarclient.com" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="client.lunar.btn1">Download Lunar</a></div>
+      </div>
+
+      <div class="tool-card tag-c">
+        <div class="tool-header"><div class="tool-icon">ODR</div><span class="tool-tag" data-i18n="client.oderso.tag">Bedrock client</span></div>
+        <div class="tool-name">Oderso Client</div>
+        <div class="tool-desc" data-i18n="client.oderso.desc">A Bedrock Edition PvP client built for competitive play. Optimised for crystal PvP, sword fighting and server performance on Bedrock platforms.</div>
+        <ul class="tool-features"><li data-i18n="client.oderso.f1">Crystal PvP optimisations</li><li data-i18n="client.oderso.f2">Reach &amp; hitbox adjustments</li><li data-i18n="client.oderso.f3">FPS &amp; network performance</li><li data-i18n="client.oderso.f4">Custom animations</li><li data-i18n="client.oderso.f5">Bedrock Edition only</li></ul>
+        <div class="tool-actions"><a href="https://discord.com/invite/oderso" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="client.oderso.btn1">Join Discord</a></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header"><div class="tool-icon">FLR</div><span class="tool-tag" data-i18n="client.flarial.tag">Bedrock client</span></div>
+        <div class="tool-name">Flarial Client</div>
+        <div class="tool-desc" data-i18n="client.flarial.desc">A feature-rich Bedrock Edition client focused on performance and PvP. Known for its clean UI, module system and active development community.</div>
+        <ul class="tool-features"><li data-i18n="client.flarial.f1">Modular feature system</li><li data-i18n="client.flarial.f2">PvP &amp; movement optimisations</li><li data-i18n="client.flarial.f3">Custom HUD &amp; click GUI</li><li data-i18n="client.flarial.f4">Active development &amp; updates</li><li data-i18n="client.flarial.f5">Bedrock Edition only</li></ul>
+        <div class="tool-actions"><a href="https://flarial.xyz" target="_blank" rel="noopener" class="tool-btn solid" data-i18n="client.flarial.btn1">Download Flarial</a></div>
+      </div>
+
+      <div class="tool-card tag-a">
+        <div class="tool-header"><div class="tool-icon">BLB</div><span class="tool-tag" data-i18n="client.blueberry.tag">Bedrock client</span></div>
+        <div class="tool-name">Blueberry Client</div>
+        <div class="tool-desc" data-i18n="client.blueberry.desc">A modular Bedrock Edition client built for speed: FPS boosting, replay recording, pack switching, cosmetics and proximity chat all in one launcher.</div>
+        <ul class="tool-features"><li data-i18n="client.blueberry.f1">FPS boost &amp; replay recording</li><li data-i18n="client.blueberry.f2">Pack switcher &amp; cosmetics</li><li data-i18n="client.blueberry.f3">Proximity chat</li><li data-i18n="client.blueberry.f4">Bedrock Edition only</li></ul>
+        <div class="beta-note" data-i18n="client.blueberry.beta">Beta: Blueberry Client is still in beta testing. Expect bugs and frequent changes, use with care.</div>
+        <div class="tool-actions"><a href="https://blueberryclient.com" target="_blank" rel="noopener" class="tool-btn" data-i18n="client.blueberry.btn1">Website</a></div>
+      </div>
+
+    </div>
+
+    <div class="callout" data-i18n="footer.clients">Use third-party clients at your own risk: check your server’s rules before installing one.</div>
+  </div>
+  <footer>
+    <p>MC Toolkit <span data-i18n="footer.disclaimer">Not affiliated with Mojang or Microsoft.</span></p>
+  </footer>
+</div>
+
+<!-- ═══════════════ BREWING PAGE ═══════════════ -->
+<div class="page" id="page-brewing">
+  <div class="brew-page-wrap">
+    <h2 class="section-title" data-i18n="section.brewing.title">Brewing guide</h2>
+    <p class="section-sub" data-i18n="section.brewing.sub">Pick a potion to see the full recipe, then choose its type and duration.</p>
+
+    <div class="cat-filters" id="cat-filters"></div>
+    <div class="potion-grid" id="potion-grid"></div>
+
+    <div class="brew-detail" id="brew-detail">
+      <button class="brew-close" onclick="closeDetail()">✕ Close</button>
+      <div class="brew-type-bar" id="brew-type-bar"></div>
+      <div class="brew-variants" id="brew-variants"></div>
+      <div class="brew-recipe" id="brew-recipe"></div>
+      <div class="brew-ingredients" id="brew-ingredients"></div>
+      <div class="brew-note" id="brew-note" style="display:none;"></div>
+    </div>
+
+    <div class="brew-game-divider">
+      <h2 class="section-title" data-i18n="section.brewgame.title">Brew it yourself</h2>
+      <p class="section-sub" data-i18n="section.brewgame.sub" style="margin-bottom:0;">Work the stand yourself: fill bottles, then add ingredients in order, just like in-game.</p>
+    </div>
+
+    <div class="brew-game">
+      <div class="brew-game-top">
+        <p class="brew-game-desc" data-i18n="brewgame.desc">Get the sequence wrong and the brew fizzles out.</p>
+        <div class="brew-game-btns">
+          <button class="btn btn-primary btn-sm" id="brew-fill-btn" onclick="brewFillBottles()" data-i18n="brewing.fill">Fill water bottles</button>
+          <button class="btn btn-ghost btn-sm" onclick="brewReset()" data-i18n="brewing.reset">Reset stand</button>
+        </div>
+      </div>
+
+      <div class="brew-stand" id="brew-stand"></div>
+      <div class="brew-msg idle" id="brew-msg" data-i18n="brewgame.idle">Fill the bottles with water to begin brewing.</div>
+
+      <div class="brew-ing-palette-label" data-i18n="brewing.ingredients">Ingredients: add in order</div>
+      <div class="brew-ing-palette" id="brew-ing-palette"></div>
+
+      <div class="brew-log" id="brew-log"></div>
+    </div>
+  </div>
+  <footer>
+    <p>MC Toolkit <span data-i18n="footer.disclaimer">Not affiliated with Mojang or Microsoft.</span></p>
+  </footer>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/router.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/brew.js"></script>
+</body>
+</html>
